@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="165.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.supermercato.SupermercatoController">
+   <top>
+       <MenuBar prefHeight="47.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+           <Menu mnemonicParsing="false" text="Simulation">
+               <MenuItem fx:id="startPause" mnemonicParsing="false" onAction="#onStartPause" text="Start" />
+           </Menu>
+           <Menu mnemonicParsing="false" text="Edit">
+            <MenuItem fx:id="aggiungiCassa" mnemonicParsing="false" onAction="#onAggiungiCassa" text="Aggiungi Cassa" />
+               <MenuItem mnemonicParsing="false" text="Delete" />
+           </Menu>
+           <Menu mnemonicParsing="false" text="Help">
+               <MenuItem mnemonicParsing="false" text="About" />
+           </Menu>
+       </MenuBar>
+   </top>
+   <center>
+       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="50.0" BorderPane.alignment="CENTER">
+           <HBox fx:id="HboxCasse" prefHeight="100.0" prefWidth="200.0" />
+           <Label fx:id="lblArrabbiati" alignment="CENTER" text="Clienti arrabbiati in attesa dell'apertura di una cassa: 0">
+             <font>
+                 <Font size="20.0" />
+             </font>
+           </Label>
+       </VBox>
+   </center>
+</BorderPane>

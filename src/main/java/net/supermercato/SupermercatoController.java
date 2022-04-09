@@ -3,7 +3,6 @@ package net.supermercato;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -16,12 +15,13 @@ import javafx.util.Duration;
 
 import java.util.ArrayList;
 
+
 public class SupermercatoController {
     private final Supermercato supermercato = new Supermercato(10);
     public static final int QTOLTA = 1;
     public static final int MAXELEMENTINELCARRELLO = 50;
     public static final double tempoArrivoCarrello = 0.0001;
-    public static final double tempoAvanzamento = 0.002;
+    public static final double tempoAvanzamento = 1;
 
     private Timeline timelineAggiuntaCarrello, timelineAvanzamento;
     @FXML
@@ -34,36 +34,36 @@ public class SupermercatoController {
     @FXML
     MenuItem aggiungiCassa;
 
-    public void creaCassa(int id) {
-        buttonsCasse.set(id, new Button("0"));
-        buttonsCasse.get(id).setId("" + id);
-        buttonsCasse.get(id).setBackground(new Background(new BackgroundFill(Color.rgb(255, 0, 0, 0.7), new CornerRadii(5.0), new Insets(-5.0))));
-        buttonsCasse.get(id).setOnAction(event -> {
-            Button button = (Button) event.getSource();
-            int indexCassa = Integer.parseInt(button.getId());
+    public void creaCassa() {
+        Button button = new Button("0");
+        button.setId("" + buttonsCasse.size());
+        button.setBackground(new Background(new BackgroundFill(Color.rgb(255, 0, 0, 0.7), new CornerRadii(5.0), new Insets(-5.0))));
+        button.setOnAction(event -> {
+            Button premuto = (Button) event.getSource();
+            int index_cassa = Integer.parseInt(premuto.getId());
             synchronized (supermercato) {
-                if (supermercato.getCassa(indexCassa).isAperta()) {
-                    supermercato.chiudiCassa(indexCassa);
-                    button.setBackground(new Background(new BackgroundFill(Color.rgb(255, 0, 0, 0.7), new CornerRadii(5.0), new Insets(-5.0))));
-                } else {
-                    supermercato.apriCassa(indexCassa);
-                    button.setBackground(new Background(new BackgroundFill(Color.rgb(0, 255, 0, 0.7), new CornerRadii(5.0), new Insets(-5.0))));
+                if (supermercato.getCassa(index_cassa).isAperta()) {
+                    supermercato.chiudiCassa(index_cassa);
+                    premuto.setBackground(new Background(new BackgroundFill(Color.rgb(255, 0, 0, 0.7), new CornerRadii(5.0), new Insets(-5.0))));
+                }
+                else {
+                    supermercato.apriCassa(index_cassa);
+                    premuto.setBackground(new Background(new BackgroundFill(Color.rgb(0, 255, 0, 0.7), new CornerRadii(5.0), new Insets(-5.0))));
                     if (supermercato.getNArrabbiati() > 0)
                         supermercato.assegnaArrabbiati();
                     supermercato.bilanciaCarrelli();
                 }
             }
         });
-
+        buttonsCasse.add(button);
     }
 
     @FXML
     void initialize() {
         buttonsCasse = new ArrayList<>();
-        for (int i = 0; i < supermercato.getMAXCASSE(); i++) {
-            buttonsCasse.add(null);
-            creaCassa(i);
-        }
+        for (int i = 0; i < supermercato.getMAXCASSE(); i++)
+            creaCassa();
+
         HboxCasse.getChildren().addAll(buttonsCasse);
         HboxCasse.setSpacing(20);
         HboxCasse.setAlignment(Pos.CENTER);
@@ -101,20 +101,13 @@ public class SupermercatoController {
 
 
     @FXML
-    private void onAggiungiCassa(ActionEvent actionEvent){
-        int temp = supermercato.getMAXCASSE();
-        supermercato.setMAXCASSE(temp);
-        buttonsCasse.add(null);
-        creaCassa(temp);
-
+    private void onAggiungiCassa(){
+        supermercato.setMAXCASSE(supermercato.getMAXCASSE()+1);
+        creaCassa();
     }
 
     @FXML
-    private void onStartPause(ActionEvent actionEvent) {
-        /*if (startPause.getText().equals("Start"))
-            startPause.setText("Pause");
-        else if (startPause.getText().equals("Pause"))
-            startPause.setText("Start");*/
+    private void onStartPause() {
         if (startPause.getText().equals("Start")) {
             timelineAvanzamento.play();
             timelineAggiuntaCarrello.play();

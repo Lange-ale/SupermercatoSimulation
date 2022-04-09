@@ -17,18 +17,11 @@ public class Supermercato {
     }
 
     public void aggiungiCarrello(Carrello c){
-        int minimo = Integer.MAX_VALUE;
-        int indice = -1;
-        for (int i = 0; i < MAXCASSE; i++){
-            if(casse.get(i).isAperta() && casse.get(i).getNCarrelli() < minimo) {
-                minimo = casse.get(i).getNCarrelli();
-                indice = i;
-            }
-        }
-        if (indice==-1)
+        Cassa minore = getMin();
+        if (minore==null)
             arrabbiati.add(c);
         else
-            casse.get(indice).aggiungiCarrello(c);
+            minore.aggiungiCarrello(c);
     }
 
     public void apriCassa(int indexCassa){
@@ -57,9 +50,8 @@ public class Supermercato {
     }
 
     public void assegnaArrabbiati() {
-        while (!arrabbiati.isEmpty()){
-            aggiungiCarrello(arrabbiati.pop());
-        }
+        getMin().aggiungiCarrelli(arrabbiati);
+        arrabbiati.clear();
     }
 
     public void setMAXCASSE(int MAXCASSE) {
@@ -67,26 +59,30 @@ public class Supermercato {
     }
 
     private Cassa getMax(){
-        int max = getCassa(0).getNCarrelli();
+        int max = Integer.MIN_VALUE;
         int index = 0;
-        for(int i = 1; i < MAXCASSE; i++ ){
+        for(int i = 0; i < MAXCASSE; i++ ){
             if(getCassa(i).isAperta() && getCassa(i).getNCarrelli() > max){
                 max = getCassa(i).getNCarrelli();
                 index = i;
             }
         }
+        if (max == Integer.MIN_VALUE)
+            return null;
         return getCassa(index);
     }
 
     private Cassa getMin(){
-        int min = getCassa(0).getNCarrelli();
+        int min = Integer.MAX_VALUE;
         int index = 0;
-        for(int i = 1; i < MAXCASSE; i++ ){
+        for(int i = 0; i < MAXCASSE; i++ ){
             if(getCassa(i).isAperta() && getCassa(i).getNCarrelli() < min){
                 min = getCassa(i).getNCarrelli();
                 index = i;
             }
         }
+        if (min==Integer.MAX_VALUE)
+            return null;
         return getCassa(index);
     }
 
@@ -95,7 +91,7 @@ public class Supermercato {
         Cassa minimo = getMin();
 
         while ((massimo.getNCarrelli() - minimo.getNCarrelli()) > 2){
-            minimo.aggiungiCarrello(massimo.popLast());
+            minimo.aggiungiCarrello(massimo.pollLast());
             massimo = getMax();
             minimo = getMin();
         }

@@ -14,10 +14,8 @@ public class Cassa {
         carrelli.add(c);
     }
 
-    public Carrello spostaUltimoCarrello(){
-        Carrello temp = carrelli.getLast();
-        carrelli.removeLast();
-        return temp;
+    public void aggiungiCarrelli(LinkedList<Carrello> arrabbiati) {
+        carrelli.addAll(arrabbiati);
     }
 
     public int getNCarrelli() {
@@ -52,5 +50,5 @@ public class Cassa {
         aperta=stato;
     }
 
-    public Carrello popLast() {return carrelli.pollLast();}
+    public Carrello pollLast() {return carrelli.pollLast();}
 }
