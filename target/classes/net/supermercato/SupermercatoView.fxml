@@ -4,18 +4,16 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="165.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.supermercato.SupermercatoController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="165.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.supermercato.SupermercatoController">
    <top>
        <MenuBar prefHeight="47.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-           <Menu mnemonicParsing="false" text="Simulation">
+           <Menu mnemonicParsing="false" text="Simulatione">
                <MenuItem fx:id="startPause" mnemonicParsing="false" onAction="#onStartPause" text="Start" />
+            <MenuItem mnemonicParsing="false" onAction="#onResetClick" text="Reset" />
            </Menu>
-           <Menu mnemonicParsing="false" text="Edit">
-            <MenuItem fx:id="aggiungiCassa" mnemonicParsing="false" onAction="#onAggiungiCassa" text="Aggiungi Cassa" />
-               <MenuItem mnemonicParsing="false" text="Delete" />
-           </Menu>
-           <Menu mnemonicParsing="false" text="Help">
-               <MenuItem mnemonicParsing="false" text="About" />
+           <Menu mnemonicParsing="false" text="Casse">
+            <MenuItem fx:id="aggiungiCassa" mnemonicParsing="false" onAction="#onAggiungiCassa" text="Aggiungi " />
+               <MenuItem mnemonicParsing="false" onAction="#onEliminaCassa" text="Elimina" />
            </Menu>
        </MenuBar>
    </top>

@@ -102,11 +102,4 @@ public class Supermercato {
             minimo = getMinAperta();
         }
     }
-
-    public void reset(int MAXCASSE){
-        this.MAXCASSE = MAXCASSE;
-        for(int i=0; i < MAXCASSE; i++)
-            casse.add(new Cassa());
-        casse.get(0).setAperta(true);
-    }
 }
