@@ -62,6 +62,10 @@ public class Supermercato {
         casse.add(new Cassa());
     }
 
+    public void rimuoviUltimaCassa(){
+        casse.remove(casse.size()-1);
+    }
+
     private Cassa getMax(){
         int max = getCassa(0).getNCarrelli();
         int index = 0;
@@ -97,5 +101,12 @@ public class Supermercato {
             massimo = getMax();
             minimo = getMinAperta();
         }
+    }
+
+    public void reset(int MAXCASSE){
+        this.MAXCASSE = MAXCASSE;
+        for(int i=0; i < MAXCASSE; i++)
+            casse.add(new Cassa());
+        casse.get(0).setAperta(true);
     }
 }

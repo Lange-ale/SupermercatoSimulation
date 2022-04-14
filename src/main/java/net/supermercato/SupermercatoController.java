@@ -12,16 +12,15 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
-
 import java.util.ArrayList;
 
-
 public class SupermercatoController {
-    private final Supermercato supermercato = new Supermercato(10);
+    private Supermercato supermercato;
+    private final int NCasseIniziali = 10;
     public static final int QTOLTA = 1;
     public static final int MAXELEMENTINELCARRELLO = 50;
-    public static final double tempoArrivoCarrello = 0.0001;
-    public static final double tempoAvanzamento = 1;
+    public static final double tempoArrivoCarrello = 0.5;
+    public static final double tempoAvanzamento = 0.1;
 
     private Timeline timelineAggiuntaCarrello, timelineAvanzamento;
     @FXML
@@ -34,9 +33,9 @@ public class SupermercatoController {
     @FXML
     MenuItem aggiungiCassa;
 
-    public void creaCassa() {
+    public Button creaButtonCassa(int id) {
         Button button = new Button("0");
-        button.setId("" + buttonsCasse.size());
+        button.setId("" + id);
         button.setBackground(new Background(new BackgroundFill(Color.rgb(255, 0, 0, 0.7), new CornerRadii(5.0), new Insets(-5.0))));
         button.setOnAction(event -> {
             Button premuto = (Button) event.getSource();
@@ -55,21 +54,26 @@ public class SupermercatoController {
                 }
             }
         });
-        buttonsCasse.add(button);
+        return button;
     }
 
-    @FXML
-    void initialize() {
+    private void creaSupermercato(int MAXCASSE){
+        supermercato = new Supermercato(MAXCASSE);
         buttonsCasse = new ArrayList<>();
         for (int i = 0; i < supermercato.getMAXCASSE(); i++)
-            creaCassa();
+            buttonsCasse.add(creaButtonCassa(i));
 
+        HboxCasse.getChildren().clear();
         HboxCasse.getChildren().addAll(buttonsCasse);
         HboxCasse.setSpacing(20);
         HboxCasse.setAlignment(Pos.CENTER);
         supermercato.apriCassa(0);
         buttonsCasse.get(0).setBackground(new Background(new BackgroundFill(Color.rgb(0, 255, 0, 0.7), new CornerRadii(5.0), new Insets(-5.0))));
+    }
 
+    @FXML
+    void initialize() {
+        creaSupermercato(NCasseIniziali);
         timelineAggiuntaCarrello = new Timeline(new KeyFrame(
                 Duration.seconds(tempoArrivoCarrello),
                 e -> {
@@ -101,10 +105,18 @@ public class SupermercatoController {
 
     @FXML
     private void onAggiungiCassa(){
-        creaCassa();
+        buttonsCasse.add(creaButtonCassa(buttonsCasse.size()));
         supermercato.aggiungiCassa();
         HboxCasse.getChildren().add(buttonsCasse.get(supermercato.getMAXCASSE()));
         supermercato.setMAXCASSE(supermercato.getMAXCASSE()+1);
+    }
+
+    public void onEliminaCassa() {
+        if (buttonsCasse.size()<1) return;
+        buttonsCasse.remove(buttonsCasse.size()-1);
+        supermercato.rimuoviUltimaCassa();
+        HboxCasse.getChildren().remove(HboxCasse.getChildren().size()-1);
+        supermercato.setMAXCASSE(supermercato.getMAXCASSE()-1);
     }
 
     @FXML
@@ -118,5 +130,11 @@ public class SupermercatoController {
             timelineAvanzamento.stop();
             startPause.setText("Start");
         }
+    }
+
+    public void onResetClick() {
+        timelineAvanzamento.stop();
+        timelineAggiuntaCarrello.stop();
+        creaSupermercato(NCasseIniziali);
     }
 }
