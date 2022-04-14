@@ -99,11 +99,12 @@ public class SupermercatoController {
         lblArrabbiati.setText("Clienti arrabbiati in attesa dell'apertura di una cassa: " + supermercato.getNArrabbiati());
     }
 
-
     @FXML
     private void onAggiungiCassa(){
-        supermercato.setMAXCASSE(supermercato.getMAXCASSE()+1);
         creaCassa();
+        supermercato.aggiungiCassa();
+        HboxCasse.getChildren().add(buttonsCasse.get(supermercato.getMAXCASSE()));
+        supermercato.setMAXCASSE(supermercato.getMAXCASSE()+1);
     }
 
     @FXML
