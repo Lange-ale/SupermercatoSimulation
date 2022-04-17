@@ -50,7 +50,9 @@ public class Supermercato {
     }
 
     public void assegnaArrabbiati() {
-        getMinAperta().aggiungiCarrelli(arrabbiati);
+        Cassa minore = getMinAperta();
+        if (minore == null) return;
+        minore.aggiungiCarrelli(arrabbiati);
         arrabbiati.clear();
     }
 
@@ -63,6 +65,7 @@ public class Supermercato {
     }
 
     public void rimuoviUltimaCassa(){
+        arrabbiati.addAll(casse.get(casse.size()-1).getCarrelli());
         casse.remove(casse.size()-1);
     }
 
@@ -94,12 +97,13 @@ public class Supermercato {
 
     public void bilanciaCarrelli(){
         Cassa massimo = getMax();
-        Cassa minimo = getMinAperta();
+        Cassa minimo_aperta = getMinAperta();
+        if (minimo_aperta == null) return;
 
-        while ((massimo.getNCarrelli() - minimo.getNCarrelli()) > 2){
-            minimo.aggiungiCarrello(massimo.pollLast());
+        while ((massimo.getNCarrelli() - minimo_aperta.getNCarrelli()) > 2){
+            minimo_aperta.aggiungiCarrello(massimo.pollLast());
             massimo = getMax();
-            minimo = getMinAperta();
+            minimo_aperta = getMinAperta();
         }
     }
 }

@@ -113,10 +113,14 @@ public class SupermercatoController {
 
     public void onEliminaCassa() {
         if (buttonsCasse.size()<1) return;
-        buttonsCasse.remove(buttonsCasse.size()-1);
         supermercato.rimuoviUltimaCassa();
-        HboxCasse.getChildren().remove(HboxCasse.getChildren().size()-1);
         supermercato.setMAXCASSE(supermercato.getMAXCASSE()-1);
+        if (supermercato.getNArrabbiati() > 0)
+            supermercato.assegnaArrabbiati();
+        supermercato.bilanciaCarrelli();
+        buttonsCasse.remove(buttonsCasse.size()-1);
+        HboxCasse.getChildren().remove(HboxCasse.getChildren().size()-1);
+        aggiornavaloricasse();
     }
 
     @FXML

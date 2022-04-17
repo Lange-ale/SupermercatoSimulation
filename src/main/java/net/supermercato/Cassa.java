@@ -50,5 +50,11 @@ public class Cassa {
         aperta=stato;
     }
 
-    public Carrello pollLast() {return carrelli.pollLast();}
+    public LinkedList<Carrello> getCarrelli() {
+        return carrelli;
+    }
+
+    public Carrello pollLast() {
+        return carrelli.pollLast();
+    }
 }
