@@ -16,10 +16,10 @@ import javafx.util.Duration;
 public class SupermercatoController {
     private final int NCasseIniziali = 10;
     private Supermercato supermercato;
-    public static final int QTOLTA = 5;
+    public static final int QTOLTA = 1;
     public static final int MAXELEMENTINELCARRELLO = 50;
     public static double tempoArrivoCarrello = 1;
-    public static double tempoAvanzamento = 1;
+    public static double tempoAvanzamento = 0.1;
 
     private Timeline timelineAggiuntaCarrello, timelineAvanzamento;
     @FXML
@@ -143,5 +143,6 @@ public class SupermercatoController {
         timelineAvanzamento.stop();
         timelineAggiuntaCarrello.stop();
         creaSupermercato(NCasseIniziali);
+        startPause.setText("Start");
     }
 }

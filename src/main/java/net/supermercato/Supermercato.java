@@ -9,6 +9,7 @@ public class Supermercato {
     //se non ci sono casse aperte i clienti vanno in una coda di persone arrabbiate :(
     private final LinkedList<Carrello> arrabbiati = new LinkedList<>();
 
+
     public Supermercato(int MAXCASSE) {
         this.MAXCASSE = MAXCASSE;
         for(int i=0; i < MAXCASSE; i++)
@@ -16,11 +17,12 @@ public class Supermercato {
         casse.get(0).setAperta(true);
     }
 
+    //aggiunge un oggetto carrello all'array di carrelli
     public void aggiungiCarrello(Carrello c){
         Cassa minore = getMinAperta();
-        if (minore==null)
+        if (minore==null) //se nessuna cassa è aperta, il carrello viene messo nella coda di persone arrabbiate
             arrabbiati.add(c);
-        else
+        else //se invece almeno una cassa è aperta, il carrello viene aggiunto nella cassa con meno carrelli
             minore.aggiungiCarrello(c);
     }
 
@@ -40,20 +42,21 @@ public class Supermercato {
         return casse.get(indice);
     }
 
-    public void avanzamento() {
+    public void avanzamento() { //il carrello in testa alla coda viene diminuito di una certa quantità Q di prodotti
         for (Cassa cassa: casse)
             cassa.avanzamento();
     }
 
-    public int getNArrabbiati() {
+    public int getNArrabbiati() { //ritorna il numero di carrelli all'interno della coda di persone arrabbiate
         return arrabbiati.size();
     }
 
+    //assegna tutti i carrelli all'interno della coda di persone arrabbiate alla cassa con meno carrelli
     public void assegnaArrabbiati() {
         Cassa minore = getMinAperta();
-        if (minore == null) return;
+        if (minore == null) return; //se non ci sono casse aperte il metodo si ferma
         minore.aggiungiCarrelli(arrabbiati);
-        arrabbiati.clear();
+        arrabbiati.clear(); //pulisce la coda di persone arrabbiate
     }
 
     public void setMAXCASSE(int MAXCASSE) {
